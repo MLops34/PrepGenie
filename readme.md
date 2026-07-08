@@ -1,4 +1,4 @@
-# Planora
+# PrepGenie
 
 **AI-powered study scheduler** that turns PDF syllabi into optimized, personalized study plans using constraint optimization, RAG, and spaced repetition.
 
