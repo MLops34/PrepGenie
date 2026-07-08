@@ -7,7 +7,7 @@
 
 ## What it does
 
-Students often have a syllabus, a set of deadlines, and no realistic plan for covering everything in time. Planora:
+Students often have a syllabus, a set of deadlines, and no realistic plan for covering everything in time. PrepGenie:
 
 1. Parses a PDF syllabus to extract topics, weightage, and exam dates
 2. Lets you **chat with your syllabus** to ask questions, grounded in the actual document (RAG)
@@ -59,8 +59,8 @@ Parsing (pypdf + LLM structured extraction) ──► Topics, weightage, exam da
 
 ```bash
 # Clone
-git clone https://github.com/MLops34/Planora.git
-cd Planora
+git clone https://github.com/MLops34/PrepGenie.git
+cd PrepGenie
 
 # Backend
 python -m venv venv
