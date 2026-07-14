@@ -2,7 +2,7 @@
 
 **AI-powered study scheduler** that turns PDF syllabi into optimized, personalized study plans using constraint optimization, RAG, and spaced repetition.
 
-<video src="[https://github.com/user-attachments/assets/xxxxxxxx...](https://github.com/user-attachments/assets/65dff5ff-de13-4054-b0b2-eca03fa48dae)" controls width="600"></video>
+<video src="https://github.com/user-attachments/assets/65dff5ff-de13-4054-b0b2-eca03fa48dae" controls width="600"></video>
 
 
 
