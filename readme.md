@@ -2,8 +2,9 @@
 
 **AI-powered study scheduler** that turns PDF syllabi into optimized, personalized study plans using constraint optimization, RAG, and spaced repetition.
 
-<video src="https://github.com/MLops34/PrepGenie/Demo.mp4" controls width="600"></video>
-<!-- Replace with an actual screenshot of the dashboard/schedule output -->
+
+
+
 
 ## What it does
 
