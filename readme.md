@@ -1,150 +1,105 @@
-# Planora - 24/7 Personalized Teaching Assistant
+# PrepGenie
 
-An AI-powered study scheduler that turns PDF syllabi into smart, personalized study plans using **Spaced Repetition**, **RAG**, and **optimization**. It respects your deep work windows and syncs directly to Google Calendar.
+**AI-powered study scheduler** that turns PDF syllabi into optimized, personalized study plans using constraint optimization, RAG, and spaced repetition.
 
-Built for students (similar institutions) to reduce pre-exam stress and improve academic outcomes.
+<video src="https://github.com/user-attachments/assets/65dff5ff-de13-4054-b0b2-eca03fa48dae" controls width="600"></video>
 
-![Project Banner](https://via.placeholder.com/800x200?text=Personalized+Teaching+Assistant)  
-*(Replace with a nice screenshot of your UI/calendar view)*
 
-## ✨ Features
 
-- Deep parsing of syllabus PDFs to extract topics, weightage, learning objectives, and exam dates
-- "Chat with My Syllabus" interface powered by **RAG** (LangChain)
-- Intelligent study block allocation using **Google OR-Tools CP-SAT** (with greedy fallback)
-- Spaced Repetition scheduling for better long-term retention
-- Automatic sync to Google Calendar with reminders
-- Progress tracking and adaptive re-optimization
+## What it does
 
-## 🛠️ Tech Stack
+Students often have a syllabus, a set of deadlines, and no realistic plan for covering everything in time. PrepGenie:
 
-- **Backend**: Python + FastAPI (or Flask/Streamlit for MVP)
-- **AI/RAG**: LangChain, OpenAI/Gemini/Groq (or local LLMs)
-- **PDF Parsing**: pypdf + Unstructured.io / LlamaParse
-- **Optimization**: Google OR-Tools (CP-SAT) + Custom Greedy Heuristic
-- **Vector Store**: FAISS or Chroma
-- **Calendar**: Google Calendar API
-- **Storage**: SQLite / PostgreSQL
-- **Deployment**: Docker (recommended)
+1. Parses a PDF syllabus to extract topics, weightage, and exam dates
+2. Lets you **chat with your syllabus** to ask questions, grounded in the actual document (RAG)
+3. Generates an optimized weekly study schedule using constraint programming, respecting your deadlines, priorities, and available time
+4. Applies spaced repetition intervals so topics are revisited for better retention
 
-## 📋 Table of Contents
+## Architecture
 
-- [Project Overview](#project-overview)
-- [Step-by-Step Development Approach](#step-by-step-development-approach)
-- [Installation & Setup](#installation--setup)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Roadmap](#roadmap)
-- [Challenges & Solutions](#challenges--solutions)
-- [Contributing](#contributing)
-- [License](#license)
+```
+PDF Syllabus
+    │
+    ▼
+Parsing (pypdf + LLM structured extraction) ──► Topics, weightage, exam dates (JSON)
+    │
+    ├──► Embedding + Vector Store (FAISS/Chroma) ──► RAG Chat ("Ask about my syllabus")
+    │
+    └──► CP-SAT Optimizer (Google OR-Tools) ──► Weekly schedule
+                │
+                └──► Spaced Repetition Layer ──► Review intervals
+```
 
-## 📖 Project Overview
+<!-- Consider exporting this as an actual diagram image via draw.io or excalidraw -->
 
-Students often struggle with time management and prioritizing topics from dense syllabi.  
-This tool solves that by:
-1. Automatically understanding your syllabus
-2. Building an optimized weekly study schedule
-3. Incorporating Spaced Repetition
-4. Syncing everything to your calendar
+## ✅ Implemented
 
-Result: Smarter study habits and better academic performance.
+- PDF syllabus parsing into structured topics/deadlines
+- RAG-based "chat with my syllabus" interface (LangChain)
+- **CP-SAT constraint optimization engine** (Google OR-Tools) for schedule generation — fully working, not just the greedy fallback
+- Spaced repetition scheduling logic
+- FastAPI backend + Next.js frontend dashboard
 
-## 🚀 Step-by-Step Development Approach
+## 🚧 In Progress
 
-Follow this structured path to build the project progressively:
+- Google Calendar sync (OAuth flow and event creation partially implemented)
+- Adaptive re-optimization based on completed sessions
+- Hosted deployment (currently local-only — see Setup)
 
-### Phase 1: Planning & Setup
-- Define requirements and user flow
-- Choose tech stack
-- Set up Git repository, virtual environment, and basic project structure
-- Get API keys (Google Cloud for Calendar + OR-Tools, OpenAI/Gemini)
+## Tech Stack
 
-### Phase 2: Syllabus Parsing
-- Load and extract text from PDFs
-- Use LLM + structured output (Pydantic) to extract topics, weightage, exam dates
-- Save parsed data as JSON and embeddings
+- **Backend**: FastAPI
+- **Frontend**: Next.js, TypeScript
+- **RAG**: LangChain + Groq (Llama 3.1) / OpenAI-compatible endpoint
+- **Optimization**: Google OR-Tools (CP-SAT)
+- **PDF Parsing**: pypdf
+- **Vector Store**: FAISS / Chroma
+- **Calendar**: Google Calendar API (in progress)
 
-### Phase 3: RAG Interface ("Chat with My Syllabus")
-- Implement document loading, chunking, and embedding
-- Build retrieval chain with LangChain
-- Create a simple chat UI (Streamlit or Gradio)
-- Ensure answers are grounded in the syllabus
-
-### Phase 4: Optimization Engine
-- Implement **greedy heuristic** as a fast baseline (see `scheduler/greedy.py`)
-- Build full **CP-SAT model** using Google OR-Tools for constraint optimization
-- Add Spaced Repetition logic (initial study + review intervals)
-- Support deep work windows, deadlines, and daily limits
-
-### Phase 5: Calendar Integration
-- Set up Google Calendar API with OAuth
-- Generate and sync study events (with color-coding and reminders)
-- Handle conflicts and progress updates
-
-### Phase 6: Full Pipeline & UI
-- Connect all components: Upload → Parse → Chat → Optimize → Sync
-- Add progress tracking (mark sessions complete → re-optimize)
-- Build a clean dashboard
-
-### Phase 7: Testing, Polish & Deployment
-- Test with multiple real syllabi
-- Add error handling and logging
-- Containerize with Docker
-- Deploy (Vercel, Render, or cloud VM)
-
-## 🛠️ Installation & Setup
+## Setup
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/yourusername/24-7-personalized-teaching-assistant.git
-cd 24-7-personalized-teaching-assistant
+# Clone
+git clone https://github.com/MLops34/PrepGenie.git
+cd PrepGenie
 
-# 2. Create and activate virtual environment
+# Backend
 python -m venv venv
-source venv/bin/activate    # Windows: venv\Scripts\activate
-
-# 3. Install dependencies
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-
-# 4. Set up environment variables
 cp .env.example .env
-# Edit .env with your API keys
+# Add your GROQ_API_KEY to .env
 
-## Next.js + FastAPI UI (Phase 1)
-
-This repository now includes:
-
-- `backend/api.py` - FastAPI endpoints for parsing and schedule generation
-- `frontend/` - Next.js dashboard UI
-
-Run backend API:
-
-```bash
 uvicorn backend.api:app --reload --port 8000
 ```
 
-### Groq (OpenAI-compatible) setup
-
-Set a Groq key in `.env`:
-
-```env
-GROQ_API_KEY=your_groq_key
-OPENAI_BASE_URL=https://api.groq.com/openai/v1
-# Groq models change over time; if you get "model decommissioned",
-# use a current model from Groq docs/deprecations.
-OPENAI_SYLLABUS_MODEL=llama-3.1-70b-versatile
-OPENAI_CHAT_MODEL=llama-3.1-8b-instant
-OPENAI_PLANNER_CHAT_MODEL=llama-3.1-70b-versatile
-```
-
-Run frontend:
-
 ```bash
+# Frontend (in a separate terminal)
 cd frontend
 cp .env.local.example .env.local
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Visit `http://localhost:3000`.
+
+### Environment variables
+
+```
+GROQ_API_KEY=your_groq_key
+OPENAI_BASE_URL=https://api.groq.com/openai/v1
+OPENAI_SYLLABUS_MODEL=llama-3.1-70b-versatile
+OPENAI_CHAT_MODEL=llama-3.1-8b-instant
+OPENAI_PLANNER_CHAT_MODEL=llama-3.1-70b-versatile
+```
+
+## Roadmap
+
+- [ ] Complete Google Calendar sync (OAuth + event push)
+- [ ] Adaptive re-optimization when sessions are marked complete/missed
+- [ ] Deploy hosted demo (Render/Vercel)
+- [ ] Add evaluation metrics for parsing accuracy and schedule quality
+
+## License
+
+<!-- Add a LICENSE file (MIT is a safe default) and reference it here -->
