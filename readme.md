@@ -91,4 +91,4 @@ OPENAI_PLANNER_CHAT_MODEL=llama-3.1-70b-versatile
 
 ## License
 
-<!-- Add a LICENSE file (MIT is a safe default) and reference it here -->
+This project is licensed under the [MIT License](License).
